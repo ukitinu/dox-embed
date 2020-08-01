@@ -81,6 +81,8 @@ public final class Main {
                 .collect(Collectors.toList())
         );
         Utils.saveListToFile("dox_paragraphs", docXml.getTextLines());
+
+        Utils.saveListToFile("dox_embeddings", docXml.getEmbeddings());
     }
 
     private static void compareValues(XWPFDocument doc, DocXml docXml) {

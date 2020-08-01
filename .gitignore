@@ -1,0 +1,14 @@
+*.class
+*.log
+*.jar
+*.iml
+*.log.gz
+
+target/
+dependency-reduced-pom.xml
+.idea/
+
+_contents/
+_misc/
+_toc/
+_ar/

@@ -19,11 +19,11 @@ public class XmlElement {
     private final boolean hasInner;
     private final Interval interval;
 
-    public XmlElement(String fullContent, XmlTag tag, int closingIndex, Interval interval) {
+    public XmlElement(String fullContent, XmlTag tag, int closingIndex, int start, int end) {
         validate(fullContent, tag);
 
         this.fullContent = fullContent;
-        this.interval = interval;
+        this.interval = new Interval(start, end);
         this.tag = tag;
 
         this.tagContent = fullContent.substring(0, closingIndex);
@@ -78,18 +78,30 @@ public class XmlElement {
     }
 
     public String getAttrValue(String attr) {
-        //TODO Fallisce se " attr=" si trova a sua volta all'interno di un attributo, ad esempio in un caso come
-        //TODO anotherAttr="hello attr='spam' world".
-        String search = " " + attr + "=";
-        int start = tagContent.indexOf(" " + attr + "=");
-        if (start == -1) return "";
+        List<Integer> attributes = getAttributesStart();
+        int start = 0;
+        do {
+            start = tagContent.indexOf(attr, start);
+            if (start == -1) return "";
+            start += attr.length() + 1;
 
-        start = start + search.length();
+        } while (!attributes.contains(start));
+
         char quote = tagContent.charAt(start);
         int end = tagContent.indexOf(quote, start + 1);
 
-        if (end == -1 || end < start) return "";
+        if (end == -1) return "";
         return tagContent.substring(start + 1, end);
+    }
+
+    private List<Integer> getAttributesStart() {
+        List<Integer> starts = new ArrayList<>();
+        int start = XmlExplorer.findOuterCharIndex(tagContent, '=', 0);
+        while (start != -1) {
+            starts.add(start);
+            start = XmlExplorer.findOuterCharIndex(tagContent, '=', start);
+        }
+        return starts;
     }
 
 

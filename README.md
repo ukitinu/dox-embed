@@ -13,7 +13,7 @@ java -jar dox-embed.jar mydocument.docx
 ```
 Usage is straightforward:
 1. execute the .jar (Java 11+ required) specifying the *.docx* document's name;
-2. read the file *dox_embeddings*, which lists the indices of the paragraphs containing an embedding with the format `#${index} ${type} ${name}`.
+2. read the file *dox_embeddings*, which lists the indices of the paragraphs containing an embedding with the format `${index} ${type} ${name}`.
 
 ---
 

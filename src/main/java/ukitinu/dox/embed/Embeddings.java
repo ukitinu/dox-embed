@@ -28,7 +28,7 @@ final class Embeddings {
     private static final XmlTag OLE_OBJ_TAG = new XmlTag("<o:OLEObject>");
     private static final String OLE_OBJ_PROG_ID = "ProgID";
 
-    static List<String> getEmbeddingNames(XWPFDocument doc) throws OpenXML4JException {
+    private static List<String> getEmbeddingNames(XWPFDocument doc) throws OpenXML4JException {
         List<PackagePart> embeddings = doc.getAllEmbeddedParts();
         return embeddings.stream()
                 .map(PackagePart::getPartName)

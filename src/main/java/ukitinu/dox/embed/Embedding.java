@@ -29,7 +29,7 @@ public class Embedding {
 
     @Override
     public String toString() {
-        return String.format("#%3d\t%16s\t%s", index, progId, name);
+        return String.format("%d\t%s\t%s", index, progId, name);
     }
 
     @Override

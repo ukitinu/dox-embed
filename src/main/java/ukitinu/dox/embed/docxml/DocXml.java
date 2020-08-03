@@ -52,9 +52,9 @@ public final class DocXml {
 
     public List<Integer> getEmbeddingIndices() {
         List<Integer> list = new ArrayList<>();
-        for(int i = 0; i < paragraphs.size(); i++) {
+        for (int i = 0; i < paragraphs.size(); i++) {
             XmlElement par = paragraphs.get(i);
-            if(par.hasEmbeddings()) list.add(i);
+            if (par.hasEmbeddings()) list.add(i);
         }
         return list;
     }

@@ -2,6 +2,7 @@ package ukitinu.dox.embed;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.xwpf.usermodel.*;
 import ukitinu.dox.embed.docxml.DocXml;
 import ukitinu.dox.embed.docxml.DocXmlBuilder;
@@ -28,7 +29,7 @@ public final class Main {
     private Main() {
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, OpenXML4JException {
         if (canProceed(args)) {
             prepare();
             parse(args[0]);
@@ -57,7 +58,7 @@ public final class Main {
         }
     }
 
-    private static void parse(String filepath) throws IOException {
+    private static void parse(String filepath) throws IOException, OpenXML4JException {
         XWPFDocument doc = readDoc(filepath);
         DocXml docXml = DocXmlBuilder.build(filepath, AR_DIR, Path.of(filepath).getFileName().toString());
 //        List<String> embeddingNames = Embeddings.getEmbeddingNames(doc);
@@ -74,7 +75,7 @@ public final class Main {
         }
     }
 
-    private static void saveExtractions(XWPFDocument doc, DocXml docXml) throws FileNotFoundException {
+    private static void saveExtractions(XWPFDocument doc, DocXml docXml) throws FileNotFoundException, OpenXML4JException {
         Utils.saveListToFile("poi_paragraphs", doc.getParagraphs()
                 .stream()
                 .map(XWPFParagraph::getText)
@@ -82,7 +83,7 @@ public final class Main {
         );
         Utils.saveListToFile("dox_paragraphs", docXml.getTextLines());
 
-        Utils.saveListToFile("dox_embeddings", docXml.getEmbeddingIndices());
+        Utils.saveListToFile("dox_embeddings", Embeddings.buildEmbeddingList(doc, docXml));
     }
 
     private static void compareValues(XWPFDocument doc, DocXml docXml) {

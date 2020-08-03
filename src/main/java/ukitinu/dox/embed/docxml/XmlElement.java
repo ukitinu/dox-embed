@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class XmlElement {
     private static final String TAG_CLOSE = "/>";
     private static final String TEXT_TAG = "<w:t>";
-    private static final String EMBEDDING_TAG = "<w:object>";
+    private static final XmlTag EMBEDDING_TAG = new XmlTag("<w:object>");
 
     private final String fullContent;
     private final String tagContent;
@@ -65,6 +65,7 @@ public class XmlElement {
     }
 
     public List<XmlElement> getEmbeddings() {
+        if(tag.equals(EMBEDDING_TAG)) return List.of(this);
         return XmlExplorer.findTag(getInner(), EMBEDDING_TAG);
     }
 
@@ -83,15 +84,15 @@ public class XmlElement {
         do {
             start = tagContent.indexOf(attr, start);
             if (start == -1) return "";
-            start += attr.length() + 1;
+            start += attr.length();
 
         } while (!attributes.contains(start));
 
-        char quote = tagContent.charAt(start);
-        int end = tagContent.indexOf(quote, start + 1);
+        char quote = tagContent.charAt(start + 1);
+        int end = tagContent.indexOf(quote, start + 2);
 
         if (end == -1) return "";
-        return tagContent.substring(start + 1, end);
+        return tagContent.substring(start + 2, end);
     }
 
     private List<Integer> getAttributesStart() {
@@ -99,7 +100,7 @@ public class XmlElement {
         int start = XmlExplorer.findOuterCharIndex(tagContent, '=', 0);
         while (start != -1) {
             starts.add(start);
-            start = XmlExplorer.findOuterCharIndex(tagContent, '=', start);
+            start = XmlExplorer.findOuterCharIndex(tagContent, '=', start + 1);
         }
         return starts;
     }

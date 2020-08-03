@@ -82,7 +82,7 @@ public final class Main {
         );
         Utils.saveListToFile("dox_paragraphs", docXml.getTextLines());
 
-        Utils.saveListToFile("dox_embeddings", docXml.getEmbeddings());
+        Utils.saveListToFile("dox_embeddings", docXml.getEmbeddingIndices());
     }
 
     private static void compareValues(XWPFDocument doc, DocXml docXml) {

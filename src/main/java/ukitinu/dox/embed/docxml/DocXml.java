@@ -35,7 +35,7 @@ public final class DocXml {
         return paragraphs.stream().map(XmlElement::getText).collect(Collectors.toList());
     }
 
-    public List<EmbeddingLine> getEmbeddingContext() {
+    public List<EmbeddingLine> getEmbeddingLines() {
         List<EmbeddingLine> list = new ArrayList<>();
         int size = paragraphs.size();
 
@@ -50,7 +50,7 @@ public final class DocXml {
         return list;
     }
 
-    public List<Integer> getEmbeddings() {
+    public List<Integer> getEmbeddingIndices() {
         List<Integer> list = new ArrayList<>();
         for(int i = 0; i < paragraphs.size(); i++) {
             XmlElement par = paragraphs.get(i);
@@ -58,7 +58,6 @@ public final class DocXml {
         }
         return list;
     }
-
 
     public List<XmlElement> findTags(String tag, String... noTags) {
         String content = contentXml;

@@ -32,10 +32,6 @@ final class XmlExplorer {
     }
 
     static String removeTag(String contentXml, String tag) {
-        return removeTag(contentXml, new XmlTag(tag));
-    }
-
-    static String removeTag(String contentXml, XmlTag tag) {
         List<Interval> toRemove = findTag(contentXml, tag).stream().map(XmlElement::getInterval).collect(Collectors.toList());
         StringBuilder sb = new StringBuilder();
         int start = 0;
@@ -66,21 +62,26 @@ final class XmlExplorer {
         if (i >= contentXml.length()) return -1;
 
         char current = contentXml.charAt(i);
-        char quote = NUL;
+        char quote = current == QD || current == QS ? current : NUL;
+
         while (current != c || quote != NUL) {
             i++;
             if (i >= contentXml.length()) return -1;
-
             current = contentXml.charAt(i);
-            if (current == QD || current == QS) {
-                if (quote == NUL) {
-                    quote = current;
-                } else if (quote == current) {
-                    quote = NUL;
-                }
-            }
+            quote = updateQuote(quote, current);
         }
         return i;
+    }
+
+    private static char updateQuote(char quote, char current) {
+        if (current == QD || current == QS) {
+            if (quote == NUL) {
+                return current;
+            } else if (quote == current) {
+                return NUL;
+            }
+        }
+        return quote;
     }
 
     //region find_tag

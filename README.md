@@ -8,12 +8,12 @@ I was (un)lucky enough to have no simple way to recognise an embedding's positio
 
 ---
 
-Usage is straightforward:
-1. execute the .jar (Java 11+ required) specifying the *.docx* document's name;
-2. read the file *dox_embeddings*, which lists the indices of the paragraphs containing an embedding.
 ```
 java -jar dox-embed.jar mydocument.docx
 ```
+Usage is straightforward:
+1. execute the .jar (Java 11+ required) specifying the *.docx* document's name;
+2. read the file *dox_embeddings*, which lists the indices of the paragraphs containing an embedding with the format `#${index} ${type} ${name}`.
 
 ---
 

@@ -61,7 +61,6 @@ public final class Main {
     private static void parse(String filepath) throws IOException, OpenXML4JException {
         XWPFDocument doc = readDoc(filepath);
         DocXml docXml = DocXmlBuilder.build(filepath, AR_DIR, Path.of(filepath).getFileName().toString());
-//        List<String> embeddingNames = Embeddings.getEmbeddingNames(doc);
 
         saveExtractions(doc, docXml);
         compareParagraphs(doc, docXml);
@@ -83,7 +82,7 @@ public final class Main {
         );
         Utils.saveListToFile("dox_paragraphs", docXml.getTextLines());
 
-        Utils.saveListToFile("dox_embeddings", Embeddings.buildEmbeddingList(doc, docXml));
+        Utils.saveListToFile("dox_embeddings", Embeddings.buildEmbeddingMap(doc, docXml).values());
     }
 
     private static void compareValues(XWPFDocument doc, DocXml docXml) {
